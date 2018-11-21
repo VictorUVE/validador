@@ -35,7 +35,7 @@
 				},
 				printBlock: function(s) {
 					this.body.insertAdjacentHTML('beforeend', '<h1>' + s + '</h1>');
-					var tabla = "<table id='text_" + this.testIndex + "' border='1' style='border-collapse: collapse;'><tr><th>Valor</th><th>Acción</th><th>Resultado</th><th>Test</th></tr></table>";
+					var tabla = "<table id='text_" + this.testIndex + "' border='1' style='border-collapse: collapse;'><tr><th>Valor</th><th>Acción</th><th>Resultado esperado</th><th>Resultado del Test</th></tr></table>";
 					this.body.insertAdjacentHTML('beforeend', tabla);
 					this.tabla = document.getElementById("text_" + this.testIndex);
 					this.testIndex++;

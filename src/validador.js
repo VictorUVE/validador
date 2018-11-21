@@ -30,9 +30,9 @@ const Validador = {
      * Acepta fechas con días y/o meses con un sólo número
      * No acepta fechas anteriores a 1900
      * 
-     * @param   String  fecha        Fecha en formato d[d]/m[m]/aaaa
-     * @param   String  separador    Separador "/" por defecto
-     * @return  Boolean              True si es fecha válida
+     * @param   {String}  fecha        Fecha en formato d[d]/m[m]/aaaa
+     * @param   {String}  separador    Separador "/" por defecto
+     * @return  {Boolean}              True si es fecha válida
      */
     isDate: function(fecha, separador = "/") {
         let n = new String(fecha);
@@ -237,11 +237,5 @@ const Validador = {
         return e.indexOf("http://") == 0 || e.indexOf("https://") == 0;
     },
 };
-/**
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = Validador;
-} else {
-    window.Validador = Validador;
-}*/
 window.Validador = Validador;
 module.exports = Validador;
