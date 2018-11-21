@@ -1,5 +1,16 @@
 'use strict'
 
+/**
+ * Librería de validación de datos en frontend.
+ * IMPORTANTE: No todas las validaciones aseguran un 100% de integridad.
+ *             Esta es una VALIDACIÓN EN CLIENTE para facilitar la 
+ *             completación de formularios.
+ *             
+ * @author  Víctor Velasco <v.velasco@interactivaclic.com>
+ * @version 1.0,      2018-11-21
+ * 
+ */
+
 const Validador = {
     //Número de días por cada mes
     diasMes: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -24,10 +35,10 @@ const Validador = {
      * @return  Boolean              True si es fecha válida
      */
     isDate: function(fecha, separador = "/") {
-        var n = new String(fecha);
-        var r = n.split(separador);
+        let n = new String(fecha);
+        let r = n.split(separador);
         if (r.length != 3) return false;
-        var i = r[0],
+        let i = r[0],
             s = r[1],
             o = r[2];
         if (!this.stringIsANumber(i) || !this.stringIsANumber(s) || !this.stringIsANumber(o)) return false;
@@ -116,7 +127,7 @@ const Validador = {
      * @return  Boolean
      */
     isTelephone: function(s) {
-        var n = s.replace(/[^\d]/g, "");
+        let n = s.replace(/[^\d]/g, "");
         return n.length >= 9 && s.search(/[^+\() 0-9]/) == -1 ? true : false;
     },
 
@@ -129,7 +140,7 @@ const Validador = {
     isNIF: function(s) {
         if (s.length != 9) return false;
         else {
-            var char = s.substr(8,1), num = s.substr(0,8);
+            let char = s.substr(8,1), num = s.substr(0,8);
 
             switch (num.charAt(0).toUpperCase()) {
                 case "X": num = "0" + num.substring(1); break;
@@ -147,7 +158,7 @@ const Validador = {
      * @return  String            Letra del DNI
      */
     getNIFChar: function(s) {
-        var t = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"],
+        let t = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"],
             n = s + "";
         while (n.substring(0, 1) == "0" && n.length > 1) n = n.substring(1, n.length);
         return t[s - parseInt(n / 23) * 23]
@@ -181,7 +192,7 @@ const Validador = {
     compareDates: function(f1, f2, separador = "/") {
         if (f1 == f2) return 0;
         f1 = new String(f1), f2 = new String(f2);
-        var _f1 = f1.split(separador), 
+        let _f1 = f1.split(separador), 
             _f2 = f2.split(separador);
         if (_f1[2] < _f2[2] || _f1[2] == _f2[2] && _f1[1] < _f2[1] || _f1[2] == _f2[2] && _f1[1] == _f2[1] && _f1[0] < _f2[0]) return 1;
         else return -1;
@@ -226,9 +237,11 @@ const Validador = {
         return e.indexOf("http://") == 0 || e.indexOf("https://") == 0;
     },
 };
-
+/**
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = Validador;
 } else {
     window.Validador = Validador;
-}
+}*/
+window.Validador = Validador;
+module.exports = Validador;

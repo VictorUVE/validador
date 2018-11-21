@@ -6,12 +6,14 @@
 	<title>Testing</title>
 	
 	<!-- Ficheros a probar -->
-	<script src="src/index.js"></script>
+	<script src="dist/validador.min.js"></script>
 
 	<!-- Validación -->
 	<script>
 		window.onload = function() {
-			const tester = {
+			var validador = window.Validador;
+
+			var tester = {
 				body: document.body,
 				tabla: null, 
 				testIndex: 0,
@@ -55,7 +57,7 @@
 				['', false],
 				['qwer', false]
 			];
-			tester.runTest(datos, Validador, 'isNumber');
+			tester.runTest(datos, validador, 'isNumber');
 
 			//isDate
 			tester.printBlock("Valida fechas");
@@ -74,7 +76,7 @@
 				['1/1/1900', undefined, true],
 				['31/12/1899', undefined, false],
 			];
-			tester.runTest(datos, Validador, 'isDate', 2);
+			tester.runTest(datos, validador, 'isDate', 2);
 
 			//isDate
 			tester.printBlock("Valida stringIsANumber");
@@ -90,7 +92,7 @@
 				[false, false],
 				[true, false],
 			];
-			tester.runTest(datos, Validador, 'stringIsANumber');
+			tester.runTest(datos, validador, 'stringIsANumber');
 
 			//stringHasOnlyNumbers
 			tester.printBlock("Valida stringHasOnlyNumbers");
@@ -112,7 +114,7 @@
 				['1,0', false],
 				['', false],
 			];
-			tester.runTest(datos, Validador, 'stringHasOnlyNumbers');
+			tester.runTest(datos, validador, 'stringHasOnlyNumbers');
 
 			//isChar
 			tester.printBlock("Valida isChar");
@@ -129,7 +131,7 @@
 				['.', false],
 				['ñ', false],
 			];
-			tester.runTest(datos, Validador, 'isChar');
+			tester.runTest(datos, validador, 'isChar');
 
 			//isString
 			tester.printBlock("Valida isString");
@@ -143,7 +145,7 @@
 				[true, false],
 				[false, false],
 			];
-			tester.runTest(datos, Validador, 'isString');
+			tester.runTest(datos, validador, 'isString');
 
 			//isValidString
 			tester.printBlock("Valida isValidString: Es cadena y no está vacía o al menos tiene una cierta longitud");
@@ -157,7 +159,7 @@
 				[true, false],
 				[false, false],
 			];
-			tester.runTest(datos, Validador, 'isValidString');
+			tester.runTest(datos, validador, 'isValidString');
 
 			//isMail
 			tester.printBlock("Valida isMail");
@@ -173,7 +175,7 @@
 				['@.', false],
 				['a@a.a', true]
 			];
-			tester.runTest(datos, Validador, 'isMail');
+			tester.runTest(datos, validador, 'isMail');
 
 			//isTelephone
 			tester.printBlock("Valida isTelephone");
@@ -194,7 +196,7 @@
 				['(+34) 555 33 22 11', true],
 				['(+34) 555 332 211', true],
 			];
-			tester.runTest(datos, Validador, 'isTelephone');
+			tester.runTest(datos, validador, 'isTelephone');
 
 			//isNIF
 			tester.printBlock("Valida isNIF");
@@ -210,7 +212,7 @@
 				['', false],
 				['00000000F', false],
 			];
-			tester.runTest(datos, Validador, 'isNIF');
+			tester.runTest(datos, validador, 'isNIF');
 
 			//getNIFChar
 			tester.printBlock("Valida getNIFChar");
@@ -220,7 +222,7 @@
 				['00246571', 'B'],
 				['26419182', 'W']
 			];
-			tester.runTest(datos, Validador, 'getNIFChar');
+			tester.runTest(datos, validador, 'getNIFChar');
 
 			//isNick
 			tester.printBlock("Valida isNick");
@@ -234,7 +236,7 @@
 				['acciónS', false],
 				['', false],
 			];
-			tester.runTest(datos, Validador, 'isNick');
+			tester.runTest(datos, validador, 'isNick');
 
 			//compareDates
 			tester.printBlock("Valida compareDates");
@@ -254,7 +256,7 @@
 				['10-01-2018', '10-01-2017', '-', -1],
 				['10-01-2017', '10-01-2018', '-', 1],
 			];
-			tester.runTest(datos, Validador, 'compareDates', 3);
+			tester.runTest(datos, validador, 'compareDates', 3);
 
 			//isColor
 			tester.printBlock("Valida isColor");
@@ -278,7 +280,7 @@
 				['ffc#c00', false],
 				['', false],
 			];
-			tester.runTest(datos, Validador, 'isColor');
+			tester.runTest(datos, validador, 'isColor');
 
 			//getFriendlyURL
 			tester.printBlock("Valida getFriendlyURL");
@@ -289,7 +291,7 @@
 				['Fue, vió, venció', 'fue-vio-vencio'],
 				['ÃÀÁÄÂ ÈÉËÊ ÌÍÏÎ ÒÓÖÔ ÙÚÜÛ ãàáäâ èéëê ìíïî òóöô ùúüû ÑñÇç', 'aaaaa-eeee-iiii-oooo-uuuu-aaaaa-eeee-iiii-oooo-uuuu-nncc'],
 			];
-			tester.runTest(datos, Validador, 'getFriendlyURL');
+			tester.runTest(datos, validador, 'getFriendlyURL');
 
 			//isLink
 			tester.printBlock("Valida isLink");
@@ -299,7 +301,7 @@
 				['www.google.es', false],
 				['', false],
 			];
-			tester.runTest(datos, Validador, 'isLink');
+			tester.runTest(datos, validador, 'isLink');
 		};
 	</script>
 </head>
