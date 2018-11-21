@@ -1,0 +1,28 @@
+{
+  "name": "validador",
+  "version": "1.0.0",
+  "description": "Validador básico en Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorUVE/validador.git"
+  },
+  "keywords": [
+    "Javascript",
+    "Validation",
+    "Validador",
+    "Form",
+    "validation"
+  ],
+  "author": "Víctor UVE Velasco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictorUVE/validador/issues"
+  },
+  "homepage": "https://github.com/VictorUVE/validador#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}

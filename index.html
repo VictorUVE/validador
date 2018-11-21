@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Testing</title>
+	
+	<!-- Ficheros a probar -->
+	<script src="src/index.js"></script>
+
+	<!-- Validación -->
+	<script>
+		window.onload = function() {
+			const tester = {
+				body: document.body,
+				tabla: null, 
+				testIndex: 0,
+				evaluatedFunction: '',
+				runTest: function(datos, objeto, functionName, argsLength = 1) {
+					var self = this;
+					this.evaluatedFunction = functionName;
+					datos.map(function(valor) {
+						var args = valor.slice(0, argsLength);
+						var result = objeto[functionName].apply(objeto, args);
+						var expected = valor.pop();
+						self.printTest(args, result, expected);
+					});
+				},
+				printTest: function(args, resultado, deseado) {
+					var test = (resultado === deseado) ? '<strong style="color:green">OK</strong>' : '<strong style="color:red">KO</strong>';
+						fila = "<tr><td>" +args.join(', ')+ "</td><td>" +this.evaluatedFunction+ "</td><td>" +resultado+ "</td><td>" +test+ "</td></tr>";
+					this.tabla.insertAdjacentHTML('beforeend', fila);
+				},
+				printBlock: function(s) {
+					this.body.insertAdjacentHTML('beforeend', '<h1>' + s + '</h1>');
+					var tabla = "<table id='text_" + this.testIndex + "' border='1' style='border-collapse: collapse;'><tr><th>Valor</th><th>Acción</th><th>Resultado</th><th>Test</th></tr></table>";
+					this.body.insertAdjacentHTML('beforeend', tabla);
+					this.tabla = document.getElementById("text_" + this.testIndex);
+					this.testIndex++;
+				}
+			}
+			var datos;
+
+			//isNumber
+			tester.printBlock("Valor exclusivamente numérico");
+			datos = [
+				[1, true], 
+				[0, true],
+				[true, false],
+				[false, false],
+				['1', false],
+				['0', false], 
+				[undefined, false],
+				[null, false],
+				['', false],
+				['qwer', false]
+			];
+			tester.runTest(datos, Validador, 'isNumber');
+
+			//isDate
+			tester.printBlock("Valida fechas");
+			datos = [
+				['10/01/2017', undefined, true],
+				['10-01-2017', '-', true],
+				['28/02/2018', undefined, true],
+				['29/02/2018', undefined, false],
+				['30/02/2018', undefined, false],
+				['31/02/2018', undefined, false],
+				['31/11/2018', undefined, false],
+				['01/13/2018', undefined, false],
+				['101/10/2018', undefined, false],
+				['01/110/2018', undefined, false],
+				['1/1/2008', undefined, true],
+				['1/1/1900', undefined, true],
+				['31/12/1899', undefined, false],
+			];
+			tester.runTest(datos, Validador, 'isDate', 2);
+
+			//isDate
+			tester.printBlock("Valida stringIsANumber");
+			datos = [
+				[10, false],
+				[-5, false],
+				['10', true],
+				['01', true],
+				['+15', true],
+				['-15', true],
+				['+15.4', true],
+				['-15.4', true],
+				[false, false],
+				[true, false],
+			];
+			tester.runTest(datos, Validador, 'stringIsANumber');
+
+			//stringHasOnlyNumbers
+			tester.printBlock("Valida stringHasOnlyNumbers");
+			datos = [
+				[1, false],
+				[0, false],
+				[true, false],
+				[false, false],
+				['1', true],
+				['0', true],
+				['123', true],
+				['123a', false],
+				['a123', false],
+				['12a3', false],
+				['abcd', false],
+				['+1', false],
+				['-1', false],
+				['1.0', false],
+				['1,0', false],
+				['', false],
+			];
+			tester.runTest(datos, Validador, 'stringHasOnlyNumbers');
+
+			//isChar
+			tester.printBlock("Valida isChar");
+			datos = [
+				['a', true],
+				[1, false],
+				[0, false],
+				[true, false],
+				[false, false],
+				['1', false],
+				['0', false],
+				['', false],
+				['-', false],
+				['.', false],
+				['ñ', false],
+			];
+			tester.runTest(datos, Validador, 'isChar');
+
+			//isString
+			tester.printBlock("Valida isString");
+			datos = [
+				['a', true],
+				['aasdf df', true],
+				['100', true],
+				['', true],
+				[1, false],
+				[0, false],
+				[true, false],
+				[false, false],
+			];
+			tester.runTest(datos, Validador, 'isString');
+
+			//isValidString
+			tester.printBlock("Valida isValidString: Es cadena y no está vacía o al menos tiene una cierta longitud");
+			datos = [
+				['a', true],
+				['aasdf df', true],
+				['100', true],
+				['', false],
+				[1, false],
+				[0, false],
+				[true, false],
+				[false, false],
+			];
+			tester.runTest(datos, Validador, 'isValidString');
+
+			//isMail
+			tester.printBlock("Valida isMail");
+			datos = [
+				['hola@hola.com', true],
+				['hola@100holas.com', true],
+				['hola@hola-colega.com', true],
+				['hola.hola@hola.com', true],
+				['hola@hola.co.uk', true],
+				['hola.hola@hola.co.uk', true],
+				['aasdf', false],
+				['wer@wer', false],
+				['@.', false],
+				['a@a.a', true]
+			];
+			tester.runTest(datos, Validador, 'isMail');
+
+			//isTelephone
+			tester.printBlock("Valida isTelephone");
+			datos = [
+				['942', false],
+				['abcdefghi', false],
+				['987yut674', false],
+				['', false],
+				['+++++++++', false],
+				['942333333', true],
+				['91 333 33 33', true],
+				['666223344', true],
+				['666 22 33 44', true],
+				['666 222 333', true],
+				['0034555333111', true],
+				['(+34) 555333111', true],
+				['(+34)555333111', true],
+				['(+34) 555 33 22 11', true],
+				['(+34) 555 332 211', true],
+			];
+			tester.runTest(datos, Validador, 'isTelephone');
+
+			//isNIF
+			tester.printBlock("Valida isNIF");
+			datos = [
+				['22392856X', true],
+				['Y4994743P', true],
+				['X0246571B', true],
+				['Z6419182W', true],
+				['89451201A', false],
+				['X8347001X', false],
+				['Y6404930M', false],
+				['Z3398676B', false],
+				['', false],
+				['00000000F', false],
+			];
+			tester.runTest(datos, Validador, 'isNIF');
+
+			//getNIFChar
+			tester.printBlock("Valida getNIFChar");
+			datos = [
+				['22392856', 'X'],
+				['14994743', 'P'],
+				['00246571', 'B'],
+				['26419182', 'W']
+			];
+			tester.runTest(datos, Validador, 'getNIFChar');
+
+			//isNick
+			tester.printBlock("Valida isNick");
+			datos = [
+				['usuario_2000', true],
+				['PoPo_15_ABC', true],
+				['_Pablito', true],
+				['2641918226419182', true],
+				['abcde', false],
+				['Víctor 2000', false],
+				['acciónS', false],
+				['', false],
+			];
+			tester.runTest(datos, Validador, 'isNick');
+
+			//compareDates
+			tester.printBlock("Valida compareDates");
+			datos = [
+				['10/01/2018', '10/01/2018', undefined, 0],
+				['11/01/2018', '10/01/2018', undefined, -1],
+				['10/01/2018', '11/01/2018', undefined, 1],
+				['10/02/2018', '10/01/2018', undefined, -1],
+				['10/01/2018', '10/02/2018', undefined, 1],
+				['10/01/2018', '10/01/2017', undefined, -1],
+				['10/01/2017', '10/01/2018', undefined, 1],
+				['10-01-2018', '10-01-2018', '-', 0],
+				['11-01-2018', '10-01-2018', '-', -1],
+				['10-01-2018', '11-01-2018', '-', 1],
+				['10-02-2018', '10-01-2018', '-', -1],
+				['10-01-2018', '10-02-2018', '-', 1],
+				['10-01-2018', '10-01-2017', '-', -1],
+				['10-01-2017', '10-01-2018', '-', 1],
+			];
+			tester.runTest(datos, Validador, 'compareDates', 3);
+
+			//isColor
+			tester.printBlock("Valida isColor");
+			datos = [
+				['#000', true],
+				['#000000', true],
+				['#ABC', true],
+				['#aaa', true],
+				['#FF0F00', true],
+				['#Fc0Fcf', true],
+				['#05A9FA', true],
+				['#c5A9FA', true],
+				['000', false],
+				['000000', false],
+				['000000#', false],
+				['ABC', false],
+				['FFCC00', false],
+				['FFC#C00', false],
+				['abc', false],
+				['ffcc00', false],
+				['ffc#c00', false],
+				['', false],
+			];
+			tester.runTest(datos, Validador, 'isColor');
+
+			//getFriendlyURL
+			tester.printBlock("Valida getFriendlyURL");
+			datos = [
+				['Noticia del día', 'noticia-del-dia'],
+				['¡Mañana es viernes!', 'manana-es-viernes'],
+				[' Hola', 'hola'],
+				['Fue, vió, venció', 'fue-vio-vencio'],
+				['ÃÀÁÄÂ ÈÉËÊ ÌÍÏÎ ÒÓÖÔ ÙÚÜÛ ãàáäâ èéëê ìíïî òóöô ùúüû ÑñÇç', 'aaaaa-eeee-iiii-oooo-uuuu-aaaaa-eeee-iiii-oooo-uuuu-nncc'],
+			];
+			tester.runTest(datos, Validador, 'getFriendlyURL');
+
+			//isLink
+			tester.printBlock("Valida isLink");
+			datos = [
+				['http://www.google.es', true],
+				['https://www.google.es', true],
+				['www.google.es', false],
+				['', false],
+			];
+			tester.runTest(datos, Validador, 'isLink');
+		};
+	</script>
+</head>
+<body>
+</body>
+</html>
