@@ -1,26 +1,19 @@
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const path = require("path");
 
 module.exports = {
-  entry: './src/validador.js',
+  mode: 'production',
+  entry: path.resolve(__dirname, 'src/validador.js'),
   output: {
     filename: 'validador.min.js',
-    path: './dist'
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        loader: 'babel-loader'
       }
     ]
-  },
-  plugins: [
-    new MinifyPlugin()
-  ]
+  }
 };
